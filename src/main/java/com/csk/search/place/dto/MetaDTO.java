@@ -16,7 +16,7 @@ public class MetaDTO {
 		if( total != null && pageSize != null ) {
 			totalPageNo = total/pageSize + (total%pageSize > 0 ? 1 : 0);
 		} else {
-			throw new CommonException(Error.FAIL_GET_PAGENUMBER);
+			throw new CommonException(Error.FAIL_GET_TOTALPAGENUMBER);
 		}
 	}
 }

@@ -14,12 +14,12 @@ public class ErrorResponse implements Response {
 	public ErrorResponse() {}
 	public ErrorResponse(CommonException ex) {
 		this.errorMessage = ex.getError().getMessage();
-		this.errorCode = ex.getError().getMessage();
+		this.errorCode = ex.getError().getCode();
 	}
 	
 	public ErrorResponse(Error error) {
 		this.errorMessage = error.getMessage();
-		this.errorCode = error.getMessage();
+		this.errorCode = error.getCode();
 	}
 	
 	public ErrorResponse(HttpStatus status) {

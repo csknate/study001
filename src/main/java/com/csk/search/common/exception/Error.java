@@ -7,8 +7,9 @@ public enum Error {
 	UNKNOWN_ERROR("10000", "Unknown Exception.", HttpStatus.INTERNAL_SERVER_ERROR),
 	
 	//place
-	FAIL_GET_PAGENUMBER("10101", "Can't get the total page number.", HttpStatus.INTERNAL_SERVER_ERROR),
-	FAIL_GET_PLACE("10102", "Can't get place.", HttpStatus.INTERNAL_SERVER_ERROR)	
+	FAIL_GET_TOTALPAGENUMBER("10101", "Failed to get total page number.", HttpStatus.INTERNAL_SERVER_ERROR),
+	FAIL_GET_PLACE("10102", "Failed to get place information.", HttpStatus.INTERNAL_SERVER_ERROR),
+	INVALID_PAGENUMBER("10103", "Invalid page number.", HttpStatus.BAD_REQUEST)
 	;
 	
 	private String code;

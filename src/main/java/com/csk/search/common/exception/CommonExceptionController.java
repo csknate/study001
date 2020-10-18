@@ -29,7 +29,7 @@ public class CommonExceptionController extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(CommonException.class)
 	public ResponseEntity commonExceptionHandler(CommonException e, WebRequest request) {
-		logger.error(request.getParameterMap(), e);
+		logger.warn(e.getError().getMessage());
 		return new ResponseEntity(new ErrorResponse(e), e.getError().getHttpStatus());
 	}
 	

@@ -71,6 +71,10 @@ public class PlaceService {
 				throw new CommonException(Error.FAIL_GET_PLACE);
 			}
 		}
+		
+		if( page > response.getMeta().getTotalPageNo() ) {
+			throw new CommonException(Error.INVALID_PAGENUMBER);
+		}
 
 		mergeImages(response);
 		

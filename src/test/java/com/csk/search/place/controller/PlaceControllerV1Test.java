@@ -32,16 +32,68 @@ public class PlaceControllerV1Test {
 	KeywordScoreRepository keywordScoreRepo;
 	
     @Test
-    public void searchPlace() throws Exception {
+    public void search_place() throws Exception {
     	String keyword = "맛집";
     	
     	given(keywordScoreRepo.updateScore(1, keyword)).willReturn(1);
     	
-    	mvc.perform(MockMvcRequestBuilders.get("/v1/place?keyword=맛집&pageNo=1")
+    	mvc.perform(MockMvcRequestBuilders.get("/v1/place?keyword="+keyword+"&pageNo=1")
     			.accept(MediaType.APPLICATION_JSON_UTF8))
     	.andExpect(MockMvcResultMatchers.status().isOk())
     	.andExpect(MockMvcResultMatchers.jsonPath("$.meta.pageNo").value(1))
     	.andExpect(MockMvcResultMatchers.jsonPath("$.places").isNotEmpty());
+    }
+    
+    @Test
+    public void pageNo_min1_fail() throws Exception {
+    	String keyword = "맛집";
+    	
+    	given(keywordScoreRepo.updateScore(1, keyword)).willReturn(1);
+    	
+    	mvc.perform(MockMvcRequestBuilders.get("/v1/place?keyword="+keyword+"&pageNo=0")
+    			.accept(MediaType.APPLICATION_JSON_UTF8))
+    	.andExpect(MockMvcResultMatchers.status().isBadRequest())
+    	.andExpect(MockMvcResultMatchers.jsonPath("$.errorMessage").isNotEmpty())
+    	.andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").isNotEmpty());
+    }
+    
+    @Test
+    public void pageNo_max45_fail() throws Exception {
+    	String keyword = "맛집";
+    	
+    	given(keywordScoreRepo.updateScore(1, keyword)).willReturn(1);
+    	
+    	mvc.perform(MockMvcRequestBuilders.get("/v1/place?keyword="+keyword+"&pageNo=46")
+    			.accept(MediaType.APPLICATION_JSON_UTF8))
+    	.andExpect(MockMvcResultMatchers.status().isBadRequest())
+    	.andExpect(MockMvcResultMatchers.jsonPath("$.errorMessage").isNotEmpty())
+    	.andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").isNotEmpty());
+    }
+    
+    @Test
+    public void keyword_min2_fail() throws Exception {
+    	String keyword = "맛";
+    	
+    	given(keywordScoreRepo.updateScore(1, keyword)).willReturn(1);
+    	
+    	mvc.perform(MockMvcRequestBuilders.get("/v1/place?keyword="+keyword+"&pageNo=1")
+    			.accept(MediaType.APPLICATION_JSON_UTF8))
+    	.andExpect(MockMvcResultMatchers.status().isBadRequest())
+    	.andExpect(MockMvcResultMatchers.jsonPath("$.errorMessage").isNotEmpty())
+    	.andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").isNotEmpty());
+    }
+    
+    @Test
+    public void keyword_max50_fail() throws Exception {
+    	String keyword = "맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛맛";
+    	
+    	given(keywordScoreRepo.updateScore(1, keyword)).willReturn(1);
+    	
+    	mvc.perform(MockMvcRequestBuilders.get("/v1/place?keyword="+keyword+"&pageNo=1")
+    			.accept(MediaType.APPLICATION_JSON_UTF8))
+    	.andExpect(MockMvcResultMatchers.status().isBadRequest())
+    	.andExpect(MockMvcResultMatchers.jsonPath("$.errorMessage").isNotEmpty())
+    	.andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").isNotEmpty());
     }
     
     @Test

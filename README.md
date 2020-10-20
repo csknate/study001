@@ -30,6 +30,7 @@ curl GET 'http://localhost:8080/v1/place/rank'
 # 비기능 요구사항
 * 신뢰성
   * 검색 기능이 유효하다면 키워드 조회 횟수 저장으로 부터 발생하는 오류는 무시한다.
+  * 검색 횟수 증가로 인한 횟수 저장에 병목이 발생하는 경우 로컬캐싱하여 주기적으로 DB에 저장하여 병목을 완화한다.
   * 검색 기능이 유효하다면 부가적인 이미지 조회는 오류가 발생하더라도 무시한다.
   * 외부의 검색 API를 활용하였을 때 차선책의 API로 시도하여 검색결과를 반환환다.
   * 외부의 검색 API의 응답지연으로 인하여 전체 성능저하의 우려가 있음으로 응답을 받기까지의 timeout을 정한다.
@@ -40,6 +41,7 @@ curl GET 'http://localhost:8080/v1/place/rank'
   * API서버를 제외한 전체 장애가 발생하였을 경우에는 처리 대기 중인 Thread가 누적되지 않도록 Fast Fail 기준과 대안도 마련한다.
     * 외부검색 API 호출 timeout설정
     * DBCP fast fail option 설정
+    
 # 사용 Opensource
 * unirest-java : HTTP client 용도
 * jackson-core : JSON parser 용도
